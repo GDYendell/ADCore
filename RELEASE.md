@@ -19,6 +19,104 @@ files respectively, in the configure/ directory of the appropriate release of th
 
 Release Notes
 =============
+R2-6 (December XXX, 2016)
+========================
+
+### NDPluginROI
+* Added CollapseDims to optionally collapse (remove) output array dimensions whose value is
+  1.  For example an output array that would normally have dimensions [1, 256, 256] would be
+  [256, 256] if CollapseDims=Enable.
+  
+### NDPluginTransform
+* Set the NDArraySize[X,Y,Z] parameters appropriately after the transformation.  This is done
+  by the ROI plugin, and is convenient for clients to see the sizes, since the transform can
+  swap the X and Y dimensions. 
+
+### NDPluginOverlay
+* Added new Ellipse shape to draw elliptical or circular overlays.
+* Improved efficiency by only computing the coordinates of the overlay pixels when the overlay
+  definition changes or the image format changes.  The pixel coordinates are saved in a list.
+  This is particularly important for the new Ellipse shape because it uses trigonometric functions 
+  to compute the pixel coordinates. When neither the overlay definition or the image format changes 
+  it now just sets the pixel values for each pixel in the list.
+* Added CenterX and CenterY parameter for each overlay.  One can now specify the overlay location
+  either by PositionX and PositionY, which defines the position of the upper left corner of the
+  overlay, or by CenterX and CenterY, which define the location of the center of the overlay.
+  If CenterX/Y is changed then PositionX/Y will automatically update, and vice-versa.
+* Changed the meaning of SizeX and SizeY for the Cross overlay shape.  Previously the total size
+  of a Cross overlay was SizeX*2 and SizeY*2.  It is now SizeX and SizeY.  This makes it consistent
+  with the Rectangle and Overlay shapes, i.e. drawing each of these shapes with the same PositionX
+  and SizeX/Y will result in shapes that overlap in the expected manner.
+* Slightly changed the meaning of SizeX/Y for the Cross and Rectangle shapes.  Previously the total
+  size of the overlay was SizeX and SizeY.  Now it is SizeX+1 and SizeY+1, i.e. the overlay extends
+  +-SizeX/2 and +-SizeY/2 pixels from the center pixel.  This preserves symmetry when WidthX/Y is 1,
+  and the previous behavior is difficult to duplicate for the Ellipse shape.
+
+### NDArrayBase.template
+* Added new longout record NDimensions and new waveform record Dimensions to control the NDArray
+  dimensions.  These were needed for NDDriverStdArrays, and may be useful for other drivers.
+  Previously there were only input records (NDimensions_RBV and Dimensions_RBV) 
+  for these parameters.
+
+### NDPluginDriver, NDPluginBase.template, NDPluginBase.adl
+* Added new parameter NDPluginExecutionTime and new ai record ExecutionTime_RBV.  This gives the execution
+  time in ms the last time the plugin ran.  It works both with BlockingCallbacks=Yes and No.  It is very
+  convenient for measuring the performance of the plugin without having to run the detector at high
+  frame rates.
+
+### asynNDArrayDriver, NDArrayBase.template, NDPluginBase.adl, ADSetup.adl, all plugin adl files
+* Added 2 new parameters: NDADCoreVersion, NDDriverVersion and new stringin records ADCoreVersion_RBV and
+  DriverVersion_RBV.  These show the version of ADCore and of the driver or plugin that the IOC was
+  built with.  Because NDPluginBase.adl grew larger all of the other plugin adl files have changed
+  their layouts.
+
+### ADDriver, ADBase.template, ADSetup.adl
+* Added 3 new parameters: ADSerialNumber, ADFirmwareVersion, and ADSDKVersion and new stringin records 
+  SerialNumber_RBV, FirmwareVersion_RBV, and SDKVersion_RBV. These show the serial number and firmware
+  version of the detector, and the version of the vendor SDK library that the IOC was built with.
+  Because ADSetup.adl grew larger all driver adl files need to change their layouts.  This has been done
+  for ADBase.adl in ADCore.  New releases of driver modules will have the changed layouts.
+
+### pvaDriver
+* Moved the driver into its own repository areaDetector/pvaDriver.  The new repository contains
+  both the driver library from ADCore and the example IOC that was previously in ADExample.
+  
+### NDArray.cpp
+* Print the reference count in the report() method.
+
+### iocBoot/EXAMPLE_commonPlugins.cmd
+* Add commented out line to call startPVAServer if the EPICS V4 NDPva plugin is loaded.
+  Previously the plugin itself called startPVAServer, but this can result in the function 
+  being called multiple times, which is not allowed.
+
+### NDPluginPos
+* Added NDPos.adl medm file.
+
+### pluginTests
+* Added ROIPluginWrapper.cpp to test the CollapseDims behavior in NDPluginROI.
+
+### Viewers/ImageJ
+* Improvements to EPICS_AD_Viewer.java 
+  * Automatically set the contrast when a new window is created. This eliminates the need to 
+    manually set the contrast when changing image size, data type, and color mode in many cases.
+  * When the image window is automatically closed and reopened because the size, data type, 
+    or color mode changes the new window is now positioned in the same location as the window 
+    that was closed.
+* New ImageJ plugin called GaussianProfiler.java.  It was written by Noumane Laanait when he
+  was at the APS (currently at ORNL).  This is similar to the standard ImageJ Plot Profile tool in Live
+  mode, but it also fits a Gaussian peak to the profile, and prints the fit parameters centroid, FWHM,
+  amplitude, and background.  It is very useful for focusing x-ray beams, etc.
+* New ImageJ plugin called EPICS_AD_Controller.java.  This plugin allows using the ImageJ ROI tools
+  (rectangle and oval) to graphically define the following:
+  * The readout region of the detector/camera
+  * The position and size of an ROI (NDPluginROI)
+  * The position and size of an overlay (NDPluginOverlay)
+
+  The plugin chain can include an NDPluginTransform plugin which changes the image orientation and an
+  NDPluginROI plugin that changes the binning, size, and X/Y axes directions.  The plugin corrects
+  for these transformations when defining the target object.  Chris Roehrig from the APS wrote an
+  earlier version of this plugin.
+
 
 R2-5 (October 28, 2016)
 ========================

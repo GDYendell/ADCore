@@ -6,6 +6,7 @@ include $(TOP)/configure/CONFIG
 
 # Persuade travis (ubuntu 12.04) to use HDF5 API V2 (1.8 rather than default 1.6)
 USR_CXXFLAGS_Linux += -DH5_NO_DEPRECATED_SYMBOLS -DH5Dopen_vers=2 -DH5Gcreate_vers=2
+USR_CFLAGS_Linux   += -DH5_NO_DEPRECATED_SYMBOLS -DH5Dopen_vers=2 -DH5Gcreate_vers=2
 
 # The plugin-test executable with the actual unittests depend on the boost 
 # unittest framework so we can only build it if boost has been configured
@@ -26,6 +27,8 @@ ifeq ($(WITH_BOOST),YES)
   ADTestUtility_SRCS += PosPluginWrapper.cpp
   ADTestUtility_SRCS += TimeSeriesPluginWrapper.cpp
   ADTestUtility_SRCS += FFTPluginWrapper.cpp
+  ADTestUtility_SRCS += ROIPluginWrapper.cpp
+  ADTestUtility_SRCS += OverlayPluginWrapper.cpp
 
   PROD_IOC_Linux += plugin-test
   PROD_IOC_Darwin += plugin-test
@@ -39,6 +42,8 @@ ifeq ($(WITH_BOOST),YES)
   plugin-test_SRCS += test_NDPosPlugin.cpp
   plugin-test_SRCS += test_NDPluginTimeSeries.cpp
   plugin-test_SRCS += test_NDPluginFFT.cpp
+  plugin-test_SRCS += test_NDPluginROI.cpp
+  plugin-test_SRCS += test_NDPluginOverlay.cpp
 
   # Add tests for new plugins like this:
   #plugin-test_SRCS += test_<plugin name>.cpp
@@ -67,6 +72,6 @@ ifeq ($(WITH_HDF5),YES)
   test_SWMR_fail_min_SRCS  += test_SWMR_fail_min.c
 endif
 
-include $(ADCORE)/ADApp/commonDriverMakefile
+include $(TOP)/ADApp/commonDriverMakefile
 
 include $(TOP)/configure/RULES
