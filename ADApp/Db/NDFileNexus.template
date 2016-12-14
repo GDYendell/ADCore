@@ -11,6 +11,7 @@
 
 # This associates the template with an edm screen
 # % gui, $(PORT), edmtab, NDFileNexus.edl, P=$(P),R=$(R)
+# Database for NDFileNexus driver, which saves files for NDArray data.
 
 include "NDFile.template"
 include "NDPluginBase.template"
@@ -83,4 +84,3 @@ record(bi, "$(P)$(R)FileTemplateValid")
     field(ONAM, "Yes")
     field(SCAN, "I/O Intr")
 }
-
