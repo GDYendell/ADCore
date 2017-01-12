@@ -6,7 +6,7 @@ from iocbuilder.arginfo import *
 from iocbuilder.modules.asyn import Asyn, AsynPort, AsynIP
 from iocbuilder.modules.busy import Busy
 from iocbuilder.modules.calc import Calc
-from iocbuilder.modules.ADBinaries import ADBinaries
+#from iocbuilder.modules.ADSupport import ADSupport
 
 __all__ = ['ADCore']
 
@@ -86,14 +86,11 @@ NDDataTypes=["NDInt8", "NDUInt8", "NDInt16", "NDUInt16", "NDInt32",
 
 class ADCore(Device):
     """Library dependencies for ADCore"""
-    Dependencies = (Asyn, Busy, ADBinaries)
-    if Architecture() == "win32-x86" or Architecture() == "windows-x64":
-        LibFileList = []
-    else:
-#        LibFileList = ['GraphicsMagick', 'GraphicsMagickWand', 'GraphicsMagick++', 'PvAPI', 'sz', 'hdf5', 'NeXus', 'cbfad']
-        LibFileList = ['NeXus']
+    Dependencies = (Asyn, Busy)
+    if Architecture() not in ["win32-x86", "windows-x64"]:
+#        LibFileList = ['GraphicsMagick', 'GraphicsMagickWand', 'GraphicsMagick++', 'PvAPI', 'sz', 'hdf5', 'NeXus', 'cbfad', 'NeXus']
         SysLibFileList = ['freetype', 'Xext', 'bz2', 'png12', 'xml2', 'X11', 'gomp', 'z', 'jpeg', 'tiff']
-    LibFileList += ['netCDF', 'ADBase', 'NDPlugin']
+    LibFileList = ['ADBase', 'NDPlugin']
     DbdFileList = ['ADSupport', 'NDPluginSupport']
     AutoInstantiate = True
 

@@ -16,6 +16,9 @@ DB += NDArrayBase.template
 DB += ADBase.template
 DB += ADPrefixes.template
 
+# Drivers
+DB += pvaDriver.template
+
 # Plugins
 DB += NDAttribute.template
 DB += NDAttributeN.template

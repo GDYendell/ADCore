@@ -4,7 +4,7 @@
 # the RELEASE.<arch>.Common files. Included here for information only.
 # SUPPORT         = /dls_sw/prod/R3.14.12.3/support
 # WORK            = /dls_sw/work/R3.14.12.3/support
-# ADCORE          = /dls_sw/work/R3.14.12.3/support/ADCore
+# AREA_DETECTOR   = /dls_sw/work/R3.14.12.3/support
 # EPICS_BASE      = /dls_sw/epics/R3.14.12.3/base
 
 
@@ -17,7 +17,7 @@
 
 TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 
-ADCORE=$(TOP)
+AREA_DETECTOR=$(SUPPORT)
 
 # ASYN is needed for base classes 
 ASYN=$(SUPPORT)/asyn/4-26
@@ -31,12 +31,14 @@ SSCAN=$(SUPPORT)/sscan/2-8-1
 # CALC is needed for the NDStats plugin
 CALC=$(SUPPORT)/calc/3-1
 
+ADSUPPORT=H:/github/ADSupport
+
 # V4
 PVACCESSCPP=$(SUPPORT)/pvAccessCPP/4-1-3
 PVDATABASECPP=$(SUPPORT)/pvDatabaseCPP/4-1-1
 PVDATACPP=$(SUPPORT)/pvDataCPP/5-0-4
 NORMATIVETYPESCPP=$(SUPPORT)/normativeTypesCPP/5-0-2
 
-# ADSupport contains HDF5 and other external libs
-ADSUPPORT=$(WORK_GK)/ADSupport
+# ADBinaries is needed only for Windows (contains HDF5 and other external libs)
+ADBINARIES=$(SUPPORT)/ADBinaries/2-2dls2
 
