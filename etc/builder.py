@@ -91,7 +91,8 @@ class ADCore(Device):
 #        LibFileList = ['GraphicsMagick', 'GraphicsMagickWand', 'GraphicsMagick++', 'PvAPI', 'sz', 'hdf5', 'NeXus', 'cbfad', 'NeXus']
         SysLibFileList = ['freetype', 'Xext', 'bz2', 'png12', 'xml2', 'X11', 'gomp', 'z', 'jpeg', 'tiff']
     LibFileList = ['ADBase', 'NDPlugin']
-    DbdFileList = ['ADSupport', 'NDPluginSupport']
+    DbdFileList = ['ADSupport', 'NDPluginSupport', 'NDFileHDF5', 'NDFileJPEG', 'NDFileMagick', 'NDFileNetCDF',
+                   'NDFileNexus', 'NDFileNull', 'NDFileTIFF']
     AutoInstantiate = True
 
 #############################
