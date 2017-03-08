@@ -6,10 +6,12 @@ EPICS_BASE    = $(DLS_SW)/epics/R3.14.12.3/base
 AREA_DETECTOR = $(SUPPORT)
 
 # ASYN is needed for base classes
-ASYN = $(SUPPORT)/asyn/4-26
+#ASYN = $(SUPPORT)/asyn/4-26
+ASYN = $(HOME)/AreaDetector/asyn
 
 # BUSY is needed for busy record
-BUSY = $(SUPPORT)/busy/1-6-1
+#BUSY = $(SUPPORT)/busy/1-6-1
+BUSY = $(HOME)/AreaDetector/busy
 
 # SSCAN is needed for scanning threshold on Pilatus and general scanning
 SSCAN = $(SUPPORT)/sscan/2-8-1
@@ -24,4 +26,4 @@ PVDATACPP         = $(SUPPORT)/pvDataCPP/5-0-4
 NORMATIVETYPESCPP = $(SUPPORT)/normativeTypesCPP/5-0-2
 
 # ADSupport is needed for Windows (contains HDF5 and other external libs)
-ADSUPPORT = $(SUPPORT)/ADSupport
+ADSUPPORT = $(HOME)/AreaDetector/ADSupport
