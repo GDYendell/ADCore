@@ -2,16 +2,15 @@ TEMPLATE_TOP = $(EPICS_BASE)/templates/makeBaseApp/top
 
 # Define Core EPICS Sources - DLS_SW must be defined in each RELEASE.<arch>.Common
 SUPPORT       = $(DLS_SW)/prod/R3.14.12.3/support
+WORK          = $(DLS_SW)/work/R3.14.12.3/support
 EPICS_BASE    = $(DLS_SW)/epics/R3.14.12.3/base
 AREA_DETECTOR = $(SUPPORT)
 
 # ASYN is needed for base classes
-#ASYN = $(SUPPORT)/asyn/4-26
-ASYN = $(HOME)/AreaDetector/asyn
+ASYN = $(WORK)/asyn
 
 # BUSY is needed for busy record
-#BUSY = $(SUPPORT)/busy/1-6-1
-BUSY = $(HOME)/AreaDetector/busy
+BUSY = $(WORK)/busy
 
 # SSCAN is needed for scanning threshold on Pilatus and general scanning
 SSCAN = $(SUPPORT)/sscan/2-8-1
@@ -26,4 +25,4 @@ PVDATACPP         = $(SUPPORT)/pvDataCPP/5-0-4
 NORMATIVETYPESCPP = $(SUPPORT)/normativeTypesCPP/5-0-2
 
 # ADSupport is needed for Windows (contains HDF5 and other external libs)
-ADSUPPORT = $(HOME)/AreaDetector/ADSupport
+ADSUPPORT = $(WORK)/ADSupport
