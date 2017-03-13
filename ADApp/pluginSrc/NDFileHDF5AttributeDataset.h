@@ -19,7 +19,7 @@
 class NDFileHDF5AttributeDataset
 {
 public:
-  NDFileHDF5AttributeDataset(hid_t file, const std::string& name, NDAttrDataType_t type);
+  NDFileHDF5AttributeDataset(hid_t file, const std::string& name, NDAttrDataType_t type, hdf5::StringAttributeDataType_t stringType);
   virtual ~NDFileHDF5AttributeDataset();
 
   void setDsetName(const std::string& dsetName);
@@ -47,6 +47,7 @@ private:
   std::string      dsetName_;        // Name of the dataset to store
   hid_t            file_;            // File handle
   NDAttrDataType_t type_;            // NDAttribute type
+  hdf5::StringAttributeDataType_t stringType_; //  String attribute data type
   std::string      groupName_;       // Name of the parent group
   hid_t            dataset_;         // Dataset handle
   hid_t            dataspace_;
