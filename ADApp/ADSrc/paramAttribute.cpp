@@ -9,7 +9,6 @@
  */
 
 #include <string.h>
-#include <string>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -24,6 +23,9 @@
 #include <asynNDArrayDriver.h>
 #include "NDArray.h"
 #include "paramAttribute.h"
+
+// Unfortunately we need to use a maximum string size to read from the asynPortDriver parameter library
+#define MAX_ATTRIBUTE_STRING_SIZE 2048
 
 static const char *driverName = "paramAttribute";
 
@@ -122,7 +124,7 @@ paramAttribute::~paramAttribute()
 int paramAttribute::updateValue()
 {
     int status = asynSuccess;
-    std::string stringValue = "";
+    char stringValue[MAX_ATTRIBUTE_STRING_SIZE] = "";
     epicsInt32 i32Value=0;
     epicsFloat64 f64Value=0.;
     static const char *functionName = "updateValue";
@@ -140,13 +142,13 @@ int paramAttribute::updateValue()
             break;
         case paramAttrTypeString:
             status = this->pDriver->getStringParam(this->paramAddr, this->paramId,
-                                                stringValue);
+                                                MAX_ATTRIBUTE_STRING_SIZE, stringValue);
             this->setValue(stringValue);
             break;
         default:
             break;
     }
-    if (status && status != asynParamUndefined) {
+    if (status) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
             "%s:%s: ERROR reading parameter attribute value, name=%s, source=%s, type=%d\n",
             driverName, functionName, this->getName(), this->getSource(), this->paramType);
